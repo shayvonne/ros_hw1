@@ -1,10 +1,3 @@
-/*
-  Author : Chad Lin
-  Target : Keyboard Control
-  Date : 11/07 2018
-*/
-
-// include ros library
 #include "ros/ros.h"
 
 // include msg library
@@ -53,22 +46,25 @@ void KeyboardControl()
   {
     switch (c)
     {
-      // finish your code here
-
-      case 119:    // key w
-        
+      case 119:    // key w - move forward
+        vel_msg.linear.x = 2.0;
+        vel_msg.angular.z = 0.0;
         break;
-      case 115:    // key s
-        
+      case 115:    // key s - move backward
+        vel_msg.linear.x = -2.0;
+        vel_msg.angular.z = 0.0;
         break;
-      case 100:    // key d
-        
+      case 100:    // key d - turn right
+        vel_msg.linear.x = 0.0;
+        vel_msg.angular.z = -2.0;
         break;
-      case 97:    // key a
-        
+      case 97:    // key a - turn left
+        vel_msg.linear.x = 0.0;
+        vel_msg.angular.z = 2.0;
         break;
-      case 114:    // key r, stop the turtle 
-        
+      case 114:    // key r - stop the turtle 
+        vel_msg.linear.x = 0.0;
+        vel_msg.angular.z = 0.0;
         break;
     }
   }
@@ -79,10 +75,9 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "turtle_control");
   ros::NodeHandle n;
 
-  // declare publisher, which turtle are you?
-  ros::Publisher turtlesim_pub = n.advertise<geometry_msgs::Twist>("???", 100);
+  // Replace 'your_turtle_name' with your actual turtle name
+  ros::Publisher turtlesim_pub = n.advertise<geometry_msgs::Twist>("/your_turtle_name/cmd_vel", 100);
 
-  // setting frequency as 100 Hz
   ros::Rate loop_rate(100);
 
   printf("KeyboardControl start\n");
@@ -90,19 +85,14 @@ int main(int argc, char **argv)
   int count = 0;
 
   while (ros::ok()){
-    
-    // control turtle twist 
     KeyboardControl();
     turtlesim_pub.publish(vel_msg);
-    // print on screen
     printf("\ncount : %d\n",count);
     printf("linear\t %f \n",vel_msg.linear.x);
     printf("angular\t %f \n",vel_msg.angular.z);
-    count ++;
+    count++;
     ros::spinOnce();
     loop_rate.sleep();
   }
   return 0;
 }
-
-
