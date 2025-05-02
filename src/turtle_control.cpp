@@ -76,7 +76,7 @@ int main(int argc, char **argv)
   ros::NodeHandle n;
 
   // Replace 'your_turtle_name' with your actual turtle name
-  ros::Publisher turtlesim_pub = n.advertise<geometry_msgs::Twist>("/your_turtle_name/cmd_vel", 100);
+  ros::Publisher turtlesim_pub = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 100);
 
   ros::Rate loop_rate(100);
 
